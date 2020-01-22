@@ -2,7 +2,7 @@
 <b> WEC 2020 
 Team Members:</b>
 
-Katrina Chanco
+<br> Katrina Chanco
 <br> Spencer Comin
 <br> Evan Krul
 <br> Gary Wu
