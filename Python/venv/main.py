@@ -1,7 +1,9 @@
-from DBInterface import SQLInterface
+import os
+import Stocks
+
+# get data
+manager = Stocks.StockManager('save_files/stocks.json')
 
 
-db = SQLInterface()
-res = db('show tables')
-print(res)
-print(db.select(table='test_table', value='*'))
+
+

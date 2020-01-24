@@ -22,6 +22,6 @@ class SQLInterface(object):
     def insert(self, table: str, values: tuple):
         self.cursor.execute(f'INSERT INTO {table} VALUES {values}')
 
-    def select(self, table='test_table', value='*'):
+    def select(self, table='', value='*'):
         self.cursor.execute(f'SELECT {value} FROM {table}')
         return self.cursor.fetchall()
