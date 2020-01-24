@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -19,6 +20,8 @@ public class User {
     private String password;
     private boolean isActive;
     private String roles;
+    @OneToMany(mappedBy = "user")
+    Set<OwnsPermission> ownsPermissions;
 
     public String getUserName() {
         return userName;
@@ -52,5 +55,11 @@ public class User {
         this.roles = roles;
     }
 
-    // Generate Getters and Setters...
+    public Set<OwnsPermission> getOwnsPermissions() {
+        return ownsPermissions;
+    }
+
+    public void setOwnsPermissions(Set<OwnsPermission> ownsPermissions) {
+        this.ownsPermissions = ownsPermissions;
+    }
 }
