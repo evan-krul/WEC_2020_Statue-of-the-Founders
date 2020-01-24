@@ -1,64 +1,99 @@
 package ca.wec2020.application.backend.controllers;
 
 import ca.wec2020.application.backend.controllers.security.UserDetailsImpl;
-import ca.wec2020.application.backend.models.Account;
-import ca.wec2020.application.backend.models.OwnsPermission;
-import ca.wec2020.application.backend.models.Transaction;
-import ca.wec2020.application.backend.models.User;
+import ca.wec2020.application.backend.models.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import javax.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class AccountController {
+    private static EntityManager entityManager;
+
     public static List<Account> getAccountsForUser() {
         UserDetailsImpl user_impl = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = user_impl.getUser();
+        System.out.println(user_impl.getUsername());
+//        User user = user_impl.getUser();
 
-//        TODO JPA this
-        List<Account> accountsList = new ArrayList<>();
-        Account account1 = new Account();
-        account1.setAccount_name("Chequings");
-        account1.setIs_investment(false);
-        account1.setIs_locked(false);
-        Set<OwnsPermission> ownsPermissionSet = new HashSet<>();
-        ownsPermissionSet.add(new OwnsPermission(account1, user, "Owner"));
-        account1.setOwnsPermissions(ownsPermissionSet);
-        List<Transaction> transactions = new ArrayList<>();
-        Transaction transaction = new Transaction();
-        transaction.setAmount(12.43);
-        transaction.setCurrency("CAD");
-        transaction.setDate(new Date(132324324));
-        transaction.setTitle("Sample 1");
-        transaction.setType("Deposit");
-        transactions.add(transaction);
-
-        transaction = new Transaction();
-        transaction.setAmount(312.43);
-        transaction.setCurrency("CAD");
-        transaction.setDate(new Date(13232434));
-        transaction.setTitle("Sample 2");
-        transaction.setType("Deposit");
-        transactions.add(transaction);
-
-        transaction = new Transaction();
-        transaction.setAmount(3122.43);
-        transaction.setCurrency("CAD");
-        transaction.setDate(new Date(13232432));
-        transaction.setTitle("Sample 21");
-        transaction.setType("Withdrawl");
-        transactions.add(transaction);
-
-        account1.setTransactions(transactions);
-        accountsList.add(account1);
-
-        return accountsList;
+        EntityManager entityManager = EntityManagerFactory.entityManagerFactory().createEntityManager();
+//        todo make this show real user
+        TypedQuery<Account> query = entityManager.createQuery("SELECT a FROM Account a", Account.class);
+        return query.getResultList();
     }
 
-    public static void makeTransfer(Account origin, Account destination, double amount) {
 
+    public static void makeTransfer(Account origin, Account destination, double amount) {
+        Transaction withdraw = new Transaction();
+        withdraw.setType("Withdraw");
+        withdraw.setTitle("Transfer to: " + destination.getAccount_name());
+        withdraw.setDate(java.sql.Date.valueOf(TimeController.getInstance().getDate()));
+        withdraw.setCurrency("CAD");
+        withdraw.setAmount(amount);
+
+        Transaction deposit = new Transaction();
+        withdraw.setType("Deposit");
+        withdraw.setTitle("Transfer from: " + origin.getAccount_name());
+        withdraw.setDate(java.sql.Date.valueOf(TimeController.getInstance().getDate()));
+        withdraw.setCurrency("CAD");
+        withdraw.setAmount(amount);
+
+        List<Transaction> transactions_o = origin.getTransactions();
+        transactions_o.add(deposit);
+        origin.setTransactions(transactions_o);
+
+        List<Transaction> transactions_w = destination.getTransactions();
+        transactions_w.add(withdraw);
+        destination.setTransactions(transactions_w);
+
+
+        //CONNECT TO THE DATABASE
+        entityManager = EntityManagerFactory.entityManagerFactory().createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.merge(origin);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+
+//        CONNECT TO THE DATABASE
+        entityManager = EntityManagerFactory.entityManagerFactory().createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.merge(destination);
+        entityManager.merge(transactions_w);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+
+    }
+
+    public static void withdraw(Account origin, String title, double amount) {
+        Transaction withdraw = new Transaction();
+        withdraw.setType("Withdrawl");
+        withdraw.setTitle(title);
+        withdraw.setDate(java.sql.Date.valueOf(TimeController.getInstance().getDate()));
+        withdraw.setCurrency("CAD");
+        withdraw.setAmount(amount);
+        origin.getTransactions().add(withdraw);
+
+        //CONNECT TO THE DATABASE
+        entityManager = EntityManagerFactory.entityManagerFactory().createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.merge(origin);
+        entityManager.merge(withdraw);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
+    public static void updateLimit(Account account, Double value) {
+        List<AccountRestriction> accountRestrictions = account.getAccountRestrictions();
+        AccountRestriction accountRestriction  = accountRestrictions.stream().filter(r->r.getAr_key().equals("MAX")).findFirst().orElse(null);
+        assert accountRestriction != null;
+        System.out.println(accountRestrictions);
+        accountRestriction.setValue(value.toString());
+        account.setAccountRestrictions(Collections.singletonList(accountRestriction));
+
+        entityManager = EntityManagerFactory.entityManagerFactory().createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.merge(account);
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 }

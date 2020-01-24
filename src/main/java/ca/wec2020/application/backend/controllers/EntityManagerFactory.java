@@ -1,5 +1,6 @@
 package ca.wec2020.application.backend.controllers;
 
+import ca.wec2020.application.backend.models.Account;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -19,6 +20,7 @@ public class EntityManagerFactory {
         JpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
         emf.setJpaVendorAdapter(jpaVendorAdapter);
         emf.setPackagesToScan("ca.wec2020.application.backend.models");
+//        emf.setPackagesToScan(Account.class.getPackage().getN);
         emf.setPersistenceUnitName("default");
         emf.afterPropertiesSet();
         return emf.getObject();

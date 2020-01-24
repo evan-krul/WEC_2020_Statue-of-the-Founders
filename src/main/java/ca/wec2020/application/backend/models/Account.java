@@ -7,6 +7,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "account")
+//@NamedQueries({
+//        @NamedQuery(name="Account.findAllForUser",
+//                query="SELECT a FROM Account a JOIN User ON Account.a_id=User.id"),
+//})
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
