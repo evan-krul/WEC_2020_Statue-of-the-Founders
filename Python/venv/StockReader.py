@@ -3,8 +3,8 @@ import os
 
 
 class StockCSVGetter:
-    def __init__(self, stockFolder):
-        self.files = os.listdir(stockFolder)
+    def __init__(self, stock_folder):
+        self.files = os.listdir(stock_folder)
 
     def get_old_data(self):
         stocks = {}
@@ -18,7 +18,7 @@ class StockCSVGetter:
 
     def get_new_data(self):
         stocks = {}
-        for fileName in files:
+        for fileName in self.files:
             matcher = re.match(r'^(P<stock name>\w+)_NEW\.csv$', fileName)
             if matcher:
                 with open(filename) as newFile:
