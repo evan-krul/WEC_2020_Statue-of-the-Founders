@@ -1,0 +1,24 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+
+    <persistence-unit name="WEC2020_PU" transaction-type="RESOURCE_LOCAL">
+        <description>
+            TOUCH ONLY CLASS
+        </description>
+        <class>ca.wec2020.application.backend.models.Account</class>
+
+        <properties>
+            <property name="hibernate.enable_lazy_load_no_trans" value="true" />
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://wec2020-sql.mysql.database.azure.com:3306/wec2020" />
+            <property name="javax.persistence.jdbc.user" value="wec@wec2020-sql" />
+            <property name="javax.persistence.jdbc.password" value="J7L89E8EQFJansAG" />
+            <!--            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+            <!--                        <property name="javax.persistence.schema-generation.database.action" value="create"/>-->
+        </properties>
+
+    </persistence-unit>
+
+</persistence>

@@ -16,6 +16,10 @@ public class Transaction {
     private String currency;
     private String title;
 
+    public Transaction(){
+
+    }
+
     public Integer getT_id() {
         return t_id;
     }

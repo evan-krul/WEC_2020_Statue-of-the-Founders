@@ -4,6 +4,7 @@ import ca.wec2020.application.MainView;
 import ca.wec2020.application.views.WrapperCard;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.board.Board;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.*;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -15,6 +16,7 @@ import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
 @Route(value = "welcome", layout = MainView.class)
@@ -29,6 +31,16 @@ public class WelcomeView extends Div implements AfterNavigationObserver {
         board.addRow(
                 createBadge("Welcome", new H2("123"), "primary-text", "hello world", "badge")
         );
+
+        //Button to Upload CSV file
+        Button bUploadCSV = new Button("Upload CSV Files");
+        board.addRow(bUploadCSV);
+
+        bUploadCSV.addClickListener(e ->
+                bUploadCSV.getUI().ifPresent(ui ->
+                        ui.navigate("uploadCSV"))
+        );
+
 
 
         // Create a chart of some primary type
