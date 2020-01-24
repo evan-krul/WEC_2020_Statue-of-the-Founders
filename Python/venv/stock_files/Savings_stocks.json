@@ -1,0 +1,147 @@
+{
+    "stocks": [
+        {
+            "name": "TESLA",
+            "buy": false,
+            "counter15": 0,
+            "counter20": 0,
+            "amountPurchased": 0,
+            "stockPrice": 0,
+            "stockPriceAtPurchase": 0,
+            "fell15": 0,
+            "in20": 0,
+            "price15": 206.550003,
+            "price20": 210.940002,
+            "moneyMade": 0,
+            "sevenDays": [
+                210.089996,
+                211.279999,
+                210.949997,
+                210.619995,
+                206.660004,
+                202.210007
+            ],
+            "thirtyDays": [
+                227.169998
+            ],
+            "twoDays": [
+                210.089996
+            ],
+            "stockPriceStartMonth": 0,
+            "fifteenSP": 0,
+            "sellAG": 0,
+            "AGSP": 0,
+            "yesterdayPri": 227.169998,
+            "starting": true,
+            "yearPro": 0,
+            "maxCap": 0,
+            "trough": 0,
+            "buyingNumStock": 0
+        },
+        {
+            "name": "MACY",
+            "buy": false,
+            "counter15": 0,
+            "counter20": 0,
+            "amountPurchased": 0,
+            "stockPrice": 0,
+            "stockPriceAtPurchase": 0,
+            "fell15": 0,
+            "in20": 0,
+            "price15": 66.080002,
+            "price20": 64.18,
+            "moneyMade": 0,
+            "sevenDays": [
+                65.129997,
+                64.889999,
+                67.550003,
+                67.809998,
+                65.919998,
+                66.040001
+            ],
+            "thirtyDays": [
+                21.389999
+            ],
+            "twoDays": [
+                65.129997
+            ],
+            "stockPriceStartMonth": 0,
+            "fifteenSP": 0,
+            "sellAG": 0,
+            "AGSP": 0,
+            "yesterdayPri": 21.389999,
+            "starting": true,
+            "yearPro": 0,
+            "maxCap": 0,
+            "trough": 0,
+            "buyingNumStock": 0
+        },
+        {
+            "name": "COSTCO",
+            "buy": false,
+            "counter15": 0,
+            "counter20": 0,
+            "amountPurchased": 0,
+            "stockPrice": 0,
+            "stockPriceAtPurchase": 0,
+            "fell15": 0,
+            "in20": 0,
+            "price15": 0,
+            "price20": 0,
+            "moneyMade": 0,
+            "sevenDays": [],
+            "thirtyDays": [],
+            "twoDays": [],
+            "stockPriceStartMonth": 0,
+            "fifteenSP": 0,
+            "sellAG": 0,
+            "AGSP": 0,
+            "yesterdayPri": 0,
+            "starting": true,
+            "yearPro": 0,
+            "maxCap": 0,
+            "trough": 0,
+            "buyingNumStock": 0
+        },
+        {
+            "name": "LOBLAWS",
+            "buy": false,
+            "counter15": 0,
+            "counter20": 0,
+            "amountPurchased": 0,
+            "stockPrice": 0,
+            "stockPriceAtPurchase": 0,
+            "fell15": 0,
+            "in20": 0,
+            "price15": 49.279999,
+            "price20": 49.869999,
+            "moneyMade": 0,
+            "sevenDays": [
+                53.869999,
+                53.869999,
+                53.869999,
+                53.869999,
+                53.869999,
+                53.869999
+            ],
+            "thirtyDays": [
+                51.259998
+            ],
+            "twoDays": [
+                53.869999
+            ],
+            "stockPriceStartMonth": 0,
+            "fifteenSP": 0,
+            "sellAG": 0,
+            "AGSP": 0,
+            "yesterdayPri": 51.259998,
+            "starting": true,
+            "yearPro": 0,
+            "maxCap": 0,
+            "trough": 0,
+            "buyingNumStock": 0
+        }
+    ],
+    "budget": 0,
+    "day": 0
+}

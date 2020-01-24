@@ -19,9 +19,10 @@ class SQLInterface(object):
         self.cursor.execute(command)
         return self.cursor.fetchall()
 
-    def insert(self, table: str, values: tuple):
-        self.cursor.execute(f'INSERT INTO {table} VALUES {values}')
+    def insert(self, table: str, values: tuple, columns: tuple):
+        assert(len(values)==len(columns))
+        self.cursor.execute(f'INSERT INTO {table} {columns} VALUES {values}')
 
-    def select(self, table='', value='*'):
-        self.cursor.execute(f'SELECT {value} FROM {table}')
+    def select(self, table='', value='*', condition='TRUE'):
+        self.cursor.execute(f'SELECT {value} FROM {table} WHERE {condition}')
         return self.cursor.fetchall()
