@@ -63,7 +63,7 @@ class StockManager:
 
 
 class Stock:
-    def __init__(self, name='', buy=False, counter15=0, amount_purchased=0, stock_price=0, stock_price_at_purchase=0,
+    def __init__(self, name='', buy=False, counter15=0, amount_purchased=1, stock_price=0, stock_price_at_purchase=0,
                  fell15=0, in20=0, price15=0, price20=0, money_made=0, seven_days=[], thirty_days=[], two_days=[],
                  stock_price_start_month=0, fifteen_sp=0, sell_ag=0, agsp=0, yesterday_pri=0, starting=True,
                  year_pro=0, max_cap=0, trough=0, buying_num_stock=0, counter20=0):
@@ -108,7 +108,7 @@ class Stock:
         if self.buy:
             self.sevenDays.append(stock_price)
             self.twoDays.append(stock_price)
-            tot += sell(stock_price, day)
+            tot += self.sell(stock_price, day)
         self.yesterdayPri = stock_price
 
     def start(self, old_sp):
@@ -124,8 +124,8 @@ class Stock:
 
     def sell(self, day, stock_price_curr):
         total = 0
-        num = day - 2
-        trough = stock_price_curr / self.stockPriceAtPurchase
+        num = int(day - 2) if day > 2 else 0
+        trough = stock_price_curr / self.stockPriceAtPurchase if self.stockPriceAtPurchase else 0
         if day >= 2 and not self.fell15:
             total = sum(self.twoDays[num:])
             if total * 1.2 > self.twoDays[num]:
@@ -163,3 +163,8 @@ class Stock:
             else:
                 self.amountPurchased = int(self.buyingNumStock)
         return self.amountPurchased * stock_price_curr
+
+    def fBuy(self, stockP):
+        self.buy = 0
+        self.stockPriceAtPurchase = stockP
+        return self.amountPurchased * stockP

@@ -20,8 +20,7 @@ class SQLInterface(object):
         return self.cursor.fetchall()
 
     def insert(self, table: str, values: tuple, columns: tuple):
-        assert(len(values)==len(columns))
-        self.cursor.execute(f'INSERT INTO {table} {columns} VALUES {values}')
+        self.cursor.execute(f'INSERT INTO {table} ({columns}) VALUES ({values})')
 
     def select(self, table='', value='*', condition='TRUE'):
         self.cursor.execute(f'SELECT {value} FROM {table} WHERE {condition}')

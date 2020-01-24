@@ -11,12 +11,16 @@ for investmentAccount in dataBase.select(table='account', condition='is_investme
     for stock in manager.stocks:
         prices = newData[stock.name]
         if prices:
-            change = stock.analyze(prices[manager.day], manager.day)
+            if manager.day == 0:
+                change = stock.fBuy(prices[0])
+            else:
+                change = stock.analyze(prices[manager.day], manager.day)
             if change:
-                dataBase.insert(table='account_transactions', columns=('account_a_id'), values=(id))
+                dataBase.insert(table='account_transactions', columns= 'account_a_id', values=id)
                 type = 'Deposit' if change > 0 else 'Withdrawal'
                 dataBase.insert(table='transactions', columns=('t_id', 'amount', 'title', 'type'),
                                 values=(dataBase.cursor.lastrowid, abs(change), stock.name, type))
+            print(change)
     manager.save()
     # update database
 
