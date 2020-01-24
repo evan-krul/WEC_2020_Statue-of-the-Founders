@@ -20,7 +20,7 @@ import org.springframework.security.access.annotation.Secured;
 @Route(value = "welcome", layout = MainView.class)
 @PageTitle("Welcome")
 @CssImport(value = "styles/views/style.css", include = "lumo-badge")
-@Secured("") //
+@Secured("ROLE_User") //
 public class WelcomeView extends Div implements AfterNavigationObserver {
     public WelcomeView() {
         setId("welcome-view");
