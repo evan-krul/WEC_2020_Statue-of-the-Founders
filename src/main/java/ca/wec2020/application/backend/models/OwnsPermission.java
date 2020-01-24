@@ -20,6 +20,12 @@ public class OwnsPermission {
 
     private String permission;
 
+    public OwnsPermission(Account account, User user, String permission) {
+        this.account = account;
+        this.user = user;
+        this.permission = permission;
+    }
+
     public Account getAccount() {
         return account;
     }

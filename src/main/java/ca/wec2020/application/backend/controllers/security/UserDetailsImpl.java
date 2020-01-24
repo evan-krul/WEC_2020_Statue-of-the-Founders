@@ -18,6 +18,7 @@ public class UserDetailsImpl implements UserDetails {
     private String password;
     private boolean isActive;
     private List<GrantedAuthority> authorities;
+    private User user;
 
     public UserDetailsImpl(User user) {
         this.userName = user.getUserName();
@@ -44,6 +45,10 @@ public class UserDetailsImpl implements UserDetails {
     public String getUsername() {
 
         return userName;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     @Override

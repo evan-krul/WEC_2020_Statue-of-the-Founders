@@ -28,9 +28,9 @@ public class LoginView extends VerticalLayout {
 					 CustomRequestCache requestCache) {
 		// configures login dialog and adds it to the main view
 		login.setOpened(true);
-		login.setTitle("Spring Secured Vaadin");
-		login.setDescription("Login Overlay Example");
-
+		login.setTitle("Welcome to MoneyInc");
+		login.setDescription("Please enter your credentials.");
+		login.setForgotPasswordButtonVisible(false);
 		add(login);
 
 		login.addLoginListener(e -> { //

@@ -24,9 +24,12 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import ca.wec2020.application.MainView;
+import org.springframework.security.access.annotation.Secured;
+
 @Route(value = "masterdetail", layout = MainView.class)
 @PageTitle("MasterDetail")
 @CssImport("styles/views/masterdetail/master-detail-view.css")
+@Secured("ROLE_User") //
 public class MasterDetailView extends Div implements AfterNavigationObserver {
 
     @Autowired

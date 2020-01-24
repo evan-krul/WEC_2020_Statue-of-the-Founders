@@ -87,4 +87,9 @@ public class Account {
     public void setOwnsPermissions(Set<OwnsPermission> ownsPermissions) {
         this.ownsPermissions = ownsPermissions;
     }
+
+    @Override
+    public String toString() {
+        return account_name;
+    }
 }
