@@ -1,10 +1,13 @@
 package ca.wec2020.application.app.security;
 
+import ca.wec2020.application.backend.controllers.security.UserRepository;
 import ca.wec2020.application.views.LoginView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,6 +15,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
@@ -29,6 +35,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private static final String LOGOUT_SUCCESS_URL = "/login";
 
+	@Autowired
+	private UserDetailsService userDetailsService;
 
 
 	@Bean
@@ -72,24 +80,31 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 
-	@Bean
 	@Override
-	public UserDetailsService userDetailsService() {
-		UserDetails normalUser =
-				User.withUsername("user")
-						.password("{noop}password")
-						.roles("User")
-						.build();
-
-		// admin user with all privileges
-		UserDetails adminUser =
-				User.withUsername("admin")
-						.password("{noop}password")
-						.roles("User", "Admin")
-						.build();
-
-		return new InMemoryUserDetailsManager(normalUser, adminUser);
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService);
 	}
+
+//	@Bean
+//	@Override
+//	public UserDetailsService userDetailsService() {
+////		TODO Connect to database
+//		UserDetails normalUser =
+//				User.withUsername("user")
+//						.password("{noop}password")
+//						.roles("User")
+//						.build();
+//
+//		// admin user with all privileges
+//		UserDetails adminUser =
+//				User.withUsername("admin")
+//						.password("{noop}password")
+//						.roles("User", "Admin")
+//						.build();
+//
+//		return new InMemoryUserDetailsManager(normalUser, adminUser);
+//	}
+
 
 	/**
 	 * Allows access to static resources, bypassing Spring security.
@@ -110,6 +125,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				"/manifest.webmanifest",
 				"/sw.js",
 				"/offline-page.html",
+				"/offline.html",
 
 				// icons and images
 				"/icons/**",
@@ -126,5 +142,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 				// (production mode) static resources
 				"/frontend-es5/**", "/frontend-es6/**");
+	}
+
+	@Bean
+	public PasswordEncoder getPasswordEncoder() {
+		return NoOpPasswordEncoder.getInstance();
 	}
 }
