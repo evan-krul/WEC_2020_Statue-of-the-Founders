@@ -74,13 +74,15 @@ public class SingleAccountDialog extends Dialog {
         withdrawPage = new Div();
         withdrawPage.setVisible(false);
         tabsToPages.put(withdrawTab, withdrawPage);
+        buildWithdrawPage();
 
         Tab accountRequirementsTab = new Tab("Modify account Settings");
         accountRequirementsPage = new Div();
         accountRequirementsPage.setVisible(false);
         tabsToPages.put(accountRequirementsTab, accountRequirementsPage);
+        buildSettings();
 
-        tabs = new Tabs(transactionHistoryTab, transferTab);
+        tabs = new Tabs(transactionHistoryTab, transferTab, withdrawTab, accountRequirementsTab);
         tabs.setFlexGrowForEnclosedTabs(1);
         Div pages = new Div(transactionHistoryPage, transferPage, withdrawPage, accountRequirementsPage);
         Set<Component> pagesShown = Stream.of(transactionHistoryPage)
@@ -96,6 +98,7 @@ public class SingleAccountDialog extends Dialog {
             pagesShown.add(selectedPage);
         });
 
+        account.getOwnsPermissions();
 
         Button cancelButton = new Button("Close", event -> {
             close();
@@ -104,6 +107,86 @@ public class SingleAccountDialog extends Dialog {
 
         board.addRow(cancelButton);
         add(board);
+    }
+
+    private void buildSettings() {
+        Board board = new Board();
+        H3 title = new H3("Change secondary account settings for " + account.getAccount_name());
+        title.addClassName("primary-text");
+        board.addRow(title);
+
+        FormLayout transferForm = new FormLayout();
+
+        NumberField amount = new NumberField();
+        amount.setPlaceholder("100");
+        amount.setLabel("Max Withdraw Amount");
+        double total = account.getTransactions().stream().mapToDouble(Transaction::getAmount).sum();
+        amount.setMax(total);
+        transferForm.add(amount);
+
+        Button submit = new Button("Update");
+        submit.setWidthFull();
+        submit.addClickListener(e -> {
+            if(amount.isEmpty()) {
+                Notification notification = new Notification("Please fill out all fields correctly.");
+                notification.open();
+            } else {
+                AccountController.updateLimit(account, amount.getValue());
+                Notification notification = new Notification("Withdraw successful!");
+                notification.open();
+                amount.setValue(0.0);
+                transactionList = account.getTransactions();
+
+                transactionGrid.setItems(transactionList);
+                tabs.setSelectedIndex(0);
+            }
+        });
+        transferForm.add(submit);
+        board.addRow(transferForm);
+        accountRequirementsPage.add(board);
+    }
+
+    private void buildWithdrawPage() {
+        Board board = new Board();
+        H3 title = new H3("Record a withdraw From " + account.getAccount_name());
+        title.addClassName("primary-text");
+        board.addRow(title);
+
+        FormLayout transferForm = new FormLayout();
+
+        NumberField amount = new NumberField();
+        amount.setPlaceholder("123.12");
+        amount.setLabel("Amount");
+        double total = account.getTransactions().stream().mapToDouble(Transaction::getAmount).sum();
+        amount.setMax(total);
+        transferForm.add(amount);
+
+        TextField title_w = new TextField();
+        title_w.setPlaceholder("Candies");
+        title_w.setLabel("Title");
+        transferForm.add(title_w);
+
+        Button submit = new Button("Withdraw");
+        submit.setWidthFull();
+        submit.addClickListener(e -> {
+            if(title_w.isEmpty() || amount.isEmpty() || amount.getValue() > total) {
+                Notification notification = new Notification("Please fill out all fields correctly.");
+                notification.open();
+            } else {
+                AccountController.withdraw(account, title_w.getValue(), amount.getValue());
+                Notification notification = new Notification("Withdraw successful!");
+                notification.open();
+                title_w.setValue("");
+                amount.setValue(0.0);
+                transactionList = account.getTransactions();
+
+                transactionGrid.setItems(transactionList);
+                tabs.setSelectedIndex(0);
+            }
+        });
+        transferForm.add(submit);
+        board.addRow(transferForm);
+        withdrawPage.add(board);
     }
 
     private void buildTransactionHistory() {
@@ -145,6 +228,7 @@ public class SingleAccountDialog extends Dialog {
                 Notification notification = new Notification("Please fill out all fields correctly.");
                 notification.open();
             } else {
+                System.out.println(accountSelect.getValue().getTransactions().get(0));
                 AccountController.makeTransfer(account, accountSelect.getValue(), amount.getValue());
                 Notification notification = new Notification("Transfer successful!");
                 notification.open();

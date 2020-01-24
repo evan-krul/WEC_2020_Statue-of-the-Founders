@@ -13,6 +13,9 @@ class OwnsPermissionKey implements Serializable {
     @Column(name = "id")
     int userId;
 
+    public OwnsPermissionKey() {
+    }
+
     public int getAccountId() {
         return accountId;
     }

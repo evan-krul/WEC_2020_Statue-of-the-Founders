@@ -27,6 +27,7 @@ public class User {
         return userName;
     }
 
+    @Column(name="userName")
     public void setUserName(String userName) {
         this.userName = userName;
     }
