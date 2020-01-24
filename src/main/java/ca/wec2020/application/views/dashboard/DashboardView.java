@@ -36,7 +36,7 @@ import org.springframework.security.access.annotation.Secured;
 @PageTitle("Dashboard")
 @CssImport(value = "styles/views/dashboard/dashboard-view.css", include = "lumo-badge")
 @JsModule("@vaadin/vaadin-lumo-styles/badge.js")
-@Secured("ROLE_User")
+@Secured("ROLE_User") //
 public class DashboardView extends Div implements AfterNavigationObserver {
 
     private Grid<HealthGridItem> grid = new Grid<>();

@@ -1,3 +1,7 @@
+vaadin-license-box {
+    display: none !important;
+}
+
 :host {
     background-color: var(--lumo-contrast-10pct);
     box-sizing: border-box;

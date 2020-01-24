@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import ca.wec2020.application.backend.controllers.TimeController;
+import ca.wec2020.application.views.account.AllAccountsView;
 import ca.wec2020.application.views.welcome.WelcomeView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.tabs.Tabs;
@@ -33,7 +38,18 @@ public class MainView extends AppLayout {
 
     public MainView() {
         menu = createMenuTabs();
-        addToNavbar(menu);
+        addToNavbar(menu, dateControl());
+    }
+
+    private static HorizontalLayout dateControl() {
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        Label time = new Label(TimeController.getInstance().getDate().toString());
+        horizontalLayout.add(time);
+        horizontalLayout.add(new Button("+", buttonClickEvent -> {
+            TimeController.getInstance().incrementDay();
+            time.setText(TimeController.getInstance().getDate().toString());
+        }));
+        return horizontalLayout;
     }
 
     private static Tabs createMenuTabs() {
@@ -47,6 +63,7 @@ public class MainView extends AppLayout {
         final List<Tab> tabs = new ArrayList<>();
 //        TODO: TABS HERE
         tabs.add(createTab("Welcome", WelcomeView.class));
+        tabs.add(createTab("Accounts", AllAccountsView.class));
         tabs.add(createTab("Dashboard", DashboardView.class));
         tabs.add(createTab("MasterDetail", MasterDetailView.class));
         return tabs.toArray(new Tab[tabs.size()]);

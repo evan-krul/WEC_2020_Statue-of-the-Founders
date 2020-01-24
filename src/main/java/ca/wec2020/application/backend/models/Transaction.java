@@ -12,7 +12,7 @@ public class Transaction {
 
     private Date date;
     private String type;
-    private float amount;
+    private double amount;
     private String currency;
     private String title;
 
@@ -36,11 +36,11 @@ public class Transaction {
         this.type = type;
     }
 
-    public float getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
