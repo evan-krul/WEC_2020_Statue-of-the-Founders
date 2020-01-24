@@ -57,7 +57,7 @@ public class CSVUploadUI extends Div implements AfterNavigationObserver {
         uploadCSVChequing.addSucceededListener(event -> {
             CSVUploadProcessor csvImportProcessor = new CSVUploadProcessor(bufferCSV);
             notificationOne.open();
-            csvImportProcessor.insertChequingDB();
+            csvImportProcessor.insertChequingDB("Chequeing");
         });
 
         uploadCSVSavings.setReceiver(bufferCSV);
@@ -67,7 +67,7 @@ public class CSVUploadUI extends Div implements AfterNavigationObserver {
         uploadCSVSavings.addSucceededListener(event -> {
             CSVUploadProcessor csvImportProcessor = new CSVUploadProcessor(bufferCSV);
             notificationTwo.open();
-            csvImportProcessor.insertSavingsDB();
+            csvImportProcessor.insertSavingsDB("Savings");
         });
     }
 
